@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827"><title>BugDiary — Coding Mistake Intelligence</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">B</div><div><strong>BugDiary</strong><small>LEARN FROM EVERY BUG</small></div></div>
+    <div class="nav-label">WORKSPACE</div>
+    <button class="nav-item active" data-view="dashboard"><span>▦</span> Dashboard</button>
+    <button class="nav-item" data-view="library"><span>⌕</span> Mistake library</button>
+    <button class="nav-item" data-view="revisions"><span>↻</span> Revision queue <span id="navDue" class="nav-count">0</span></button>
+    <button class="nav-item" data-view="analytics"><span>◫</span> Analytics</button>
+    <div class="sidebar-bottom"><div class="avatar">BD</div><div><strong>My workspace</strong><small>Local database</small></div><span class="online-dot"></span></div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar"><div><div class="eyebrow">YOUR PERSONAL DEBUGGING LOG</div><h1 id="pageTitle">Dashboard</h1></div><div class="top-actions"><span class="local-pill"><i></i> Saved locally</span><button class="btn btn-primary" id="addTop">＋ Add mistake</button></div></header>
+    <div id="notice" class="notice hidden"></div>
+    <section id="dashboardView" class="view">
+      <div class="welcome-row"><div><h2>Turn bugs into breakthroughs.</h2><p>A little reflection today saves hours of debugging tomorrow.</p></div><div class="welcome-icon">⌘</div></div>
+      <div class="stat-grid">
+        <article class="stat-card"><div class="stat-top"><span>Total mistakes</span><span class="stat-icon purple">⌘</span></div><strong id="statTotal">0</strong><small>Saved in your diary</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Pending review</span><span class="stat-icon amber">↻</span></div><strong id="statPending">0</strong><small>Waiting for a second look</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Due today</span><span class="stat-icon coral">◷</span></div><strong id="statDue">0</strong><small>Ready to revise</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Reviewed</span><span class="stat-icon green">✓</span></div><strong id="statReviewed">0</strong><small>Completed review status</small></article>
+      </div>
+      <div class="content-grid">
+        <article class="panel"><div class="panel-heading"><div><h3>Language breakdown</h3><p>Where your mistakes are recorded</p></div><span class="panel-symbol">◔</span></div><div id="languageChart" class="bar-chart empty-chart">Add a mistake to see your breakdown.</div></article>
+        <article class="panel"><div class="panel-heading"><div><h3>Focus areas</h3><p>Topics that may need extra practice</p></div><span class="panel-symbol">◎</span></div><div id="weakPreview" class="compact-list"><div class="empty-message">Your focus areas will appear here.</div></div></article>
+      </div>
+      <article class="panel recent-panel"><div class="panel-heading"><div><h3>Recently added</h3><p>Your latest debugging notes</p></div><button class="text-button" data-goto="library">View library →</button></div><div id="recentList" class="mistake-list"><div class="empty-message">Your diary is empty. Add your first coding mistake to get started.</div></div></article>
+      <div class="demo-strip"><div class="demo-icon">✦</div><div><strong>Need something to demonstrate?</strong><p>Load a few clearly labelled examples, then explore the analytics.</p></div><div class="demo-actions"><button class="btn btn-secondary" id="loadDemo">Load demo data</button><button class="text-button" id="removeDemo">Remove demo data</button></div></div>
+    </section>
+    <section id="libraryView" class="view hidden">
+      <div class="section-intro"><div><h2>Your mistake library</h2><p>Search, filter, and revisit the lessons behind each bug.</p></div><button class="btn btn-primary" id="addLibrary">＋ Add mistake</button></div>
+      <div class="filter-panel"><div class="search-box"><span>⌕</span><input id="searchInput" placeholder="Search title, error, language, topic or tags…"></div><select id="languageFilter"><option value="">All languages</option></select><select id="topicFilter"><option value="">All topics</option></select><select id="difficultyFilter"><option value="">All difficulty</option><option>Easy</option><option>Medium</option><option>Hard</option></select><select id="revisionFilter"><option value="">All review status</option><option value="pending">Pending</option><option value="due">Due</option><option value="completed">Reviewed</option></select></div>
+      <div class="results-row"><span id="resultCount">0 mistakes</span><span>Most recent first</span></div><div id="libraryList" class="library-grid"></div>
+    </section>
+    <section id="revisionsView" class="view hidden">
+      <div class="section-intro"><div><h2>Revision queue</h2><p>Revisit old bugs before they become new ones.</p></div></div>
+      <div class="revision-tabs"><button class="chip active" data-revision-tab="pending">Pending</button><button class="chip" data-revision-tab="due">Due now</button><button class="chip" data-revision-tab="completed">Reviewed</button></div>
+      <div id="revisionList" class="library-grid"></div>
+    </section>
+    <section id="analyticsView" class="view hidden">
+      <div class="section-intro"><div><h2>Learning analytics</h2><p>Simple, transparent signals calculated from your own diary.</p></div></div>
+      <div class="callout"><strong>How to read this page</strong><p>Repeated errors are grouped by matching normalized error messages. Focus areas use topic counts and unreviewed records. These are practice hints, not a scientific skill score.</p></div>
+      <div class="content-grid"><article class="panel"><div class="panel-heading"><div><h3>Repeated errors</h3><p>Same error message recorded more than once</p></div></div><div id="repeatedList" class="compact-list"></div></article><article class="panel"><div class="panel-heading"><div><h3>Weak concepts to revisit</h3><p>Rule-based indicators from saved records</p></div></div><div id="weakList" class="compact-list"></div></article></div>
+      <article class="panel"><div class="panel-heading"><div><h3>Mistakes by topic</h3><p>Distribution across your learning areas</p></div></div><div id="topicChart" class="bar-chart"></div></article>
+    </section>
+  </main>
+</div>
+<div id="modalBackdrop" class="modal-backdrop hidden">
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div><div class="eyebrow">YOUR DEBUGGING JOURNAL</div><h2 id="modalTitle">Add a mistake</h2></div><button class="icon-button" id="closeModal" aria-label="Close">×</button></div>
+    <form id="mistakeForm"><input type="hidden" id="mistakeId">
+      <div class="form-grid"><label class="wide">Mistake title *<input id="title" required minlength="2" maxlength="160" placeholder="e.g. Forgot to convert input"></label>
+      <label>Programming language *<input id="language" required placeholder="Python, Java, SQL…"></label><label>Topic / category *<input id="topic" required placeholder="Loops, OOP, Database…"></label>
+      <label>Difficulty<select id="difficulty"><option>Easy</option><option selected>Medium</option><option>Hard</option></select></label><label>Date recorded<input id="recordedOn" type="date"></label>
+      <label class="wide">Error message *<textarea id="errorMessage" required rows="2" placeholder="Paste the error or describe the unexpected behaviour"></textarea></label>
+      <label class="wide">Incorrect code<textarea id="incorrectCode" rows="3" class="code-input" placeholder="Code that caused the problem"></textarea></label>
+      <label class="wide">Corrected code<textarea id="correctedCode" rows="3" class="code-input" placeholder="The working version"></textarea></label>
+      <label class="wide">Solution explanation<textarea id="explanation" rows="2" placeholder="Why does the fix work?"></textarea></label>
+      <label class="wide">Root cause<textarea id="rootCause" rows="2" placeholder="What caused the mistake?"></textarea></label>
+      <label class="wide">Tags<input id="tags" placeholder="comma, separated, tags"></label><label class="wide">Next revision date<input id="nextRevision" type="date"></label></div>
+      <div class="form-footer"><span>* Required fields</span><div><button type="button" class="btn btn-secondary" id="cancelModal">Cancel</button><button type="submit" class="btn btn-primary" id="saveButton">Save mistake</button></div></div>
+    </form>
+  </section>
+</div>
+<div id="detailBackdrop" class="modal-backdrop hidden"><section class="modal detail-modal" role="dialog" aria-modal="true"><div class="modal-head"><div><div class="eyebrow">MISTAKE DETAILS</div><h2 id="detailTitle">Mistake</h2></div><button class="icon-button" id="closeDetail" aria-label="Close">×</button></div><div id="detailContent"></div></section></div>
+<script src="/static/js/app.js"></script>
+</body></html>
